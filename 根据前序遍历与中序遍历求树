@@ -1,0 +1,75 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct tree
+{	
+	int data;
+	struct tree* left;
+	struct tree* right;
+}treenode;
+
+treenode* letsgo(int* prebigin, int* preend, int* inbigin, int* inend)
+{
+	int rootvalue = prebigin[0];
+	treenode* root = (treenode*)malloc(sizeof(treenode));
+	root->data = rootvalue;
+	root->left = NULL;
+	root->right = NULL;
+
+	if (prebigin == preend)//此时root是叶节点  //递归判断条件放在malloc后
+	{
+		return root;
+	}
+	
+	int* rootininorder = inbigin;
+	while (rootininorder <= inend && (*rootininorder) != rootvalue)
+	{
+		++rootininorder;
+	}
+
+	int leftlength = rootininorder - inbigin;
+	int* leftpartsinpreend = prebigin+leftlength;
+
+	//开始递归啊啊啊
+	//看根的左子树，用左递归
+	if (leftlength > 0)
+	{
+		root->left = letsgo(prebigin + 1, leftpartsinpreend, inbigin, rootininorder - 1);	
+	}
+	if (leftlength < (preend - prebigin))
+	{
+		root->right = letsgo(leftpartsinpreend+1, preend, rootininorder + 1, inend);
+	}
+	return root;
+}
+
+
+treenode* haha(int* preorder, int* inorder,int length)
+{
+	int* prebigin = preorder;
+	int* preend = preorder+length-1;
+	int* inbigin = inorder;
+	int* inend = inorder + length - 1;
+	return letsgo(prebigin, preend, inbigin, inend);
+}
+
+void Order(treenode* t)
+{
+	if (t)
+	{
+		Order(t->left);		
+		Order(t->right);
+		printf("%d", t->data);
+	}
+}
+void main()
+{
+	
+	int preorder[] = { 7,10,4,3,1,2,8,11 };
+	int inorder[] = { 4,10,3,1,7,11,8,2 };
+	treenode* t=haha(preorder, inorder, 8);
+	Order(t);
+
+	system("pause");
+	return 0;
+}
