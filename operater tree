@@ -1,0 +1,99 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct tree
+{
+	union
+	{
+		char operater;
+		int data;
+	};
+	struct tree* left;
+	struct tree* right;
+}treenode;
+
+typedef struct stack
+{
+	int top;
+	treenode* stacklink[20];
+}treestack;
+
+treestack* createstack()
+{
+	treestack* p = (treestack*)malloc(sizeof(treestack));
+	p->top = -1;
+	return p;
+}
+
+void pushit(treestack* p, treenode* n)
+{
+	p->top++;
+	p->stacklink[p->top]=n;
+}
+
+treenode* popit(treestack* p)
+{
+	treenode* linkk = p->stacklink[p->top];
+	p->top--;
+	return linkk;
+}
+treenode* createtree(treestack* p,char* super)
+{
+	int i = 0;
+	treenode* current;
+	while (super[i])
+	{
+		if (super[i] >= '0'&&super[i] <= '9')
+		{
+			current = (treenode*)malloc(sizeof(treenode));
+			current->left = NULL;
+			current->right = NULL;
+			current->data = super[i] - '0';
+			pushit(p, current);
+		}
+		else
+		{
+			current = (treenode*)malloc(sizeof(treenode));
+			current->right = popit(p);//注意顺序
+			current->left = popit(p);
+			current->operater = super[i];
+			pushit(p, current);
+		}
+		i++;
+	}
+	return p->stacklink[p->top];
+}
+
+void visit(treenode* t)
+{
+	if (t->left==NULL&&t->right == NULL)
+	{
+		printf("%d", t->data);
+	}
+	else
+	{
+		printf("%c", t->operater);
+	}
+}
+
+bianli(treenode* t)
+{
+	if (t)
+	{
+		bianli(t->left);
+		visit(t);
+		bianli(t->right);
+	}
+}
+void main()
+{
+	char super[20];
+	scanf("%s", super);
+	treestack* p = createstack();
+	treenode* t = createtree(p, super);
+	bianli(t);
+
+
+	system("pause");
+	return 0;
+}
