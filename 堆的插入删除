@@ -1,0 +1,56 @@
+//堆 每次删除最值  最值放顶部
+//插入  放到末尾，从下往上交换
+typedef struct a 
+{
+	int size;
+	int* p;
+}nodee;
+nodee* start()
+{
+	nodee* q = (nodee*)malloc(sizeof(nodee));
+	q->p = (int*)malloc(100 * sizeof(int));
+	q->size = 0;
+	q->p[0]=1000;//maxdata
+	return q;
+
+}
+nodee* insert(nodee* q, int tmp)  //child和parrent每次往上移动一级，tmp依附在child上
+{
+	q->size++;
+	int child = q->size;
+	for (;tmp>q->p[child/2];child/=2)
+	{
+		q->p[child] = q->p[child / 2];
+	}
+	q->p[child] = tmp;
+	return q;
+}
+
+//删除 最末尾元素代替被删除的根元素  由上往下交换 tmp依附parrent
+int delet(nodee* q)//parrent若不大于左右儿子，交换时必须与俩儿子中最大的交换，此时大儿子才有当小儿子爸爸的资格
+{
+	int tmp = q->p[q->size];
+	q->size--;
+	int max = q->p[1];
+	int child,parrent;
+	for (parrent = 1; parrent * 2 <= (q->size); parrent = child)
+	{
+		child = parrent * 2;
+		if (parrent * 2 < (q->size)&&q->p[child+1]>q->p[child])
+		{
+			child++;
+		}
+		if (tmp > q->p[child])
+		{
+			break;
+		}
+		else
+		{
+			q->p[parrent] = q->p[child];
+		}
+
+	}
+	q->p[parrent] = tmp;
+
+	return max;
+}
