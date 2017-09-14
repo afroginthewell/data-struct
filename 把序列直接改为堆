@@ -1,0 +1,45 @@
+typedef struct a 
+{
+	int size;
+	int* p;
+}nodee;
+nodee* start()
+{
+	nodee* q = (nodee*)malloc(sizeof(nodee));
+	q->p = (int*)malloc(6*sizeof(int));
+	q->size = 5;
+	q->p[0] = 100;
+	.....
+	return q;
+}
+void bib(int parrent, nodee* q)
+{
+	int child;
+	for (; parrent * 2 <= (q->size); parrent = child)
+	{
+		child = parrent * 2;
+		if (parrent * 2 < (q->size) && q->p[child + 1]>q->p[child])
+		{
+			child++;
+		}
+		if (q->p[parrent] > q->p[child])
+		{
+			break;
+		}
+		else
+		{
+			int x;
+			x = q->p[parrent];
+			q->p[parrent] = q->p[child];
+			q->p[child] = x;
+		}
+	}
+}
+void cahnge(nodee* q)
+{
+	int i;
+	for (i = (q->size) / 2; i > 0; i--)
+	{
+		bib(i, q);//bib(int parrent,nodee* q)应该在此之前出现，先声明
+	}
+}
