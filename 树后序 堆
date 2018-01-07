@@ -1,0 +1,26 @@
+void posttraversal(Tree t)
+{
+    Tree T=t;
+    T->visit=0;
+    Stack s=createstack();
+    while(T||!isempty(s))
+    {
+        while(T){
+            if(T->visit==0){
+                (T->visit)++;
+                push(s,T);
+            }
+            T=T->lchild;
+        }
+        if(!isempty(s)){
+            T=pop(s);
+            if(T->visit==2)
+                printf("%c",T->data);
+            else{
+                T->visit++;
+                push(s,T);
+            }
+            T=T->rchild;
+        }
+    }
+}
