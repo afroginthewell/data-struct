@@ -1,0 +1,92 @@
+struct loop {
+	int head;
+	int rear;
+	int* ptr;
+};
+typedef struct Edge {
+	int v1, v2;
+	int weight;
+}edge;
+typedef struct Graph {
+	int numvertex;
+	int numedge;
+	int matrix[number][number];
+}graph;
+struct loop* createquee()
+{
+	struct loop* p = (struct loop*)malloc(sizeof(struct loop));
+	p->head = p->rear = 0;
+	p->ptr = (int*)malloc(number * sizeof(int));
+	return p;
+}
+void add(struct loop* p, int data)
+{
+	if (p->head == (p->rear + 1) % 4)
+	{
+		printf("no");
+	}
+	else
+	{
+		p->ptr[p->rear] = data;
+		p->rear = (p->rear + 1) % 4;
+	}
+}
+int delet(struct loop* p)
+{
+	if (p->rear == p->head)
+	{
+		return -1;//empty
+	}
+	else
+	{
+		int a = p->ptr[p->head];
+		p->head = (p->head + 1) % 4;
+		return a;
+	}
+}
+graph* create(int n)
+{
+	int i,j;
+	graph* g = (graph*)malloc(sizeof(graph));
+	g->numvertex = n;
+	for (i = 0; i < g->numvertex; i++)
+	{
+		for (j = 0; j < g->numvertex; j++)
+		{
+			g->matrix[i][j] = 0;
+		}
+	}
+	return g;
+}
+void insert(edge* edge1, graph* graph1)
+{
+	graph1->matrix[edge1->v1][edge1->v2] = edge1->weight;
+	graph1->matrix[edge1->v2][edge1->v1] = edge1->weight;
+}
+int isedge(graph* graph, int v1, int v2)
+{
+	int k = 0;
+	if (graph->matrix[v1][v2] != 0)
+		k = 1;
+	return k;
+}
+void bfs(graph* graph, int v1,int *v)
+{
+	visited[v1] = 1;
+	int i,a;
+	struct loop* q=createquee();
+	printf("%d", v1);
+	add(q,v1);
+	while ((a = delet(q)) !=-1)
+	{
+		for (i = 0; i < 4; i++)
+		{
+			if ((isedge(graph,a, i) != 0)&&v[i]!=1)
+			{
+				add(q, i);
+				printf("%d", i);
+				visited[i] = 1;
+			}
+		}
+	}
+}
