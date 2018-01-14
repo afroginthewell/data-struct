@@ -1,0 +1,29 @@
+这里建一个表头，从链表头部加入或取出
+typedef struct sNode{
+	int data;
+	struct snode* next;
+}snode;
+snode* p;
+snode* creat()
+{
+	p = (snode*)malloc(sizeof(snode));
+	p->next = NULL;
+	return p;
+}
+void add(snode* head, int data)
+{
+	snode* tmp;
+	tmp = (snode*)malloc(sizeof(snode));
+	tmp->data = data;
+	tmp->next = head->next;
+	head->next = tmp;
+}
+int pop(snode* head)
+{
+	snode* fuck;
+	fuck = head->next;
+	int b = fuck->data;
+	head->next = fuck->next;
+	free(fuck);
+	return b;
+}
