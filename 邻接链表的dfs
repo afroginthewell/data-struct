@@ -1,0 +1,56 @@
+//weight是表头到各节点的weight     链表是直接相连的在一组（不是光能到就行
+typedef struct Edge {
+	int v1, v2;
+	int weight;
+}edge;
+typedef struct Normal{
+	int vertexoflink;
+	struct Normal* next;
+	int weight;
+}normal;
+typedef struct Head {
+	normal* ptr;
+}head;
+typedef struct Graph {
+	int numvertex;
+	int numedge;
+	head links[4];
+}graph;
+graph* create(int n)
+{
+	int i;
+	graph* g = (graph*)malloc(sizeof(graph));
+	g->numvertex = n;
+	for (i = 0; i < g->numvertex; i++)
+	{
+		g->links[i].ptr = NULL;
+	}
+	return g;
+}
+void insert(edge* edge1, graph* graph1)
+{
+	normal* node = (normal*)malloc(sizeof(normal));
+	node->weight = edge1->weight;
+	node->vertexoflink = edge1->v2;
+	node->next = graph1->links[edge1->v1].ptr;
+	graph1->links[edge1->v1].ptr = node;
+	//如果是双向的
+	node = (normal*)malloc(sizeof(normal));
+	node->weight = edge1->weight;
+	node->vertexoflink = edge1->v1;
+	node->next = graph1->links[edge1->v2].ptr;
+	graph1->links[edge1->v2].ptr = node;
+}
+void DFS(int v, graph* graph1,int *visit)
+{
+	printf("%d", v);
+	visit[v] = 1;
+	normal* w = (normal*)malloc(sizeof(normal));
+	for (w = graph1->links[v].ptr; w; w = w->next)
+	{
+		if (visit[w->vertexoflink] == 0)
+		{
+			DFS(w->vertexoflink, graph1, visit);
+		}
+	}
+}
