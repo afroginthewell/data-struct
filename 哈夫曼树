@@ -1,0 +1,94 @@
+typedef struct node {
+	int parent, left, right, weight;
+}treenode;
+void findmin(int* min1, int* min2, int k, treenode* trees)
+{
+	*min1 = findit(k, trees);
+	*min2 = findit(k, trees);
+}
+int findit(int k, treenode* trees)
+{
+	int i;
+	for (i = 0; i < k; i++)
+	{
+		if (trees[i].parent == -1)
+		{
+			break;
+		}
+	}
+	int minweight = trees[i].weight;
+	int min = i;
+	for (; i < k; i++)
+	{
+		if (trees[i].parent == -1 && trees[i].weight < minweight)
+		{
+			minweight = trees[i].weight;
+			min = i;
+		}
+	}
+	trees[min].parent = 1;
+	return min;
+}
+treenode* createhuff(int*a, int n)
+{
+	int total = 2 * n-1;
+	int i = 0;
+	treenode* trees = (treenode*)malloc(total * sizeof(treenode));
+	for (; i < n; i++)
+	{
+		trees[i].left = -1;
+		trees[i].parent = -1;
+		trees[i].right = -1;
+		trees[i].weight = *a;
+		a++;
+	}
+	for (; i < total; i++)
+	{
+		trees[i].left = -1;
+		trees[i].parent = -1;
+		trees[i].right = -1;
+		trees[i].weight = 0;
+		a++;
+	}
+	int min1, min2;
+	for (i = n; i < total; i++)
+	{
+		findmin(&min1, &min2, i, trees);
+		trees[min1].parent = i;
+		trees[min2].parent = i;
+		trees[i].left = min1;
+		trees[i].right = min2;
+		trees[i].weight = trees[min1].weight + trees[min2].weight;
+	}
+	return trees;
+}
+void printit(treenode* trees, int n)
+{
+	char **manychar = (char**)malloc(n * sizeof(char*));
+	char* code = (char*)malloc(n * sizeof(char));
+	code[n - 1] = '\0';
+	int i = 0;
+	for (; i < n; i++)
+	{
+		int start = n - 2;
+		int current = i;
+		int parent = trees[current].parent;
+		while (parent != -1)
+		{
+			if (current == trees[parent].left)
+			{
+				code[start--] = '0';
+			}
+			else
+				code[start--] = '1';
+			current = parent;
+			parent = trees[parent].parent;
+		}
+		manychar[i] = (char*)malloc((n - start) * sizeof(char));
+		strcpy(manychar[i], code + start+1);
+	}
+	for (i = 0; i < n; i++)
+	{
+		printf("%s\n", manychar[i]);
+	}
+}
