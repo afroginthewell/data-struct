@@ -70,7 +70,7 @@ int isedge(graph* graph, int v1, int v2)
 		k = 1;
 	return k;
 }
-void bfs(graph* graph, int v1,int *v)
+void bfs(graph* graph, int v1,int *visited)
 {
 	visited[v1] = 1;
 	int i,a;
