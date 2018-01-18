@@ -21,14 +21,14 @@ struct loop* createquee()
 }
 void add(struct loop* p, int data)
 {
-	if (p->head == (p->rear + 1) % 4)
+	if (p->head == (p->rear + 1) %number)
 	{
 		printf("no");
 	}
 	else
 	{
 		p->ptr[p->rear] = data;
-		p->rear = (p->rear + 1) % 4;
+		p->rear = (p->rear + 1) % number;
 	}
 }
 int delet(struct loop* p)
@@ -40,7 +40,7 @@ int delet(struct loop* p)
 	else
 	{
 		int a = p->ptr[p->head];
-		p->head = (p->head + 1) % 4;
+		p->head = (p->head + 1) %number;
 		return a;
 	}
 }
@@ -79,7 +79,7 @@ void bfs(graph* graph, int v1,int *visited)
 	add(q,v1);
 	while ((a = delet(q)) !=-1)
 	{
-		for (i = 0; i < 4; i++)
+		for (i = 0; i <number; i++)
 		{
 			if ((isedge(graph,a, i) != 0)&&v[i]!=1)
 			{
