@@ -1,0 +1,31 @@
+int bfs(int v)
+{
+	visited[v] = true;
+	int count = 1;
+	int level = 0;
+	int last = v;
+	push(v, q);
+	while(!empty(p))
+	{
+		v = pop(q);
+		for (every w that connect to v)
+		{
+			if (!visited[w])
+			{
+				push(w, q);
+				count++;
+				int tail = w;
+			}
+		}
+		if (v == last)
+		{
+			last = tail;
+			level++;
+	    }
+		if (level == 6)
+		{
+			break;
+		}
+	}
+	return count;	
+}
