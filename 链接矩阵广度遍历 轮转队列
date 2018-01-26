@@ -60,7 +60,7 @@ graph* create(int n)
 }
 void insert(edge* edge1, graph* graph1)
 {
-	graph1->matrix[edge1->v1][edge1->v2] = edge1->weight;
+	graph1->matrix[edge1->v1][edge1->v2] = edge1->weight;//只有直接相连才写入矩阵
 	graph1->matrix[edge1->v2][edge1->v1] = edge1->weight;
 }
 int isedge(graph* graph, int v1, int v2)
