@@ -1,0 +1,14 @@
+void solve(int aleft,int aright,int troot,int* t,int* a)
+{
+	int length = aright - aleft + 1;
+	if (length == 0)
+	{
+		return;
+	}
+	int left = getleft(length);
+	t[troot] = a[aleft + left];
+	int lroot = troot * 2 + 1;
+	int rroot = lroot + 1;
+	solve(aleft,aleft+left-1,lroot,t,a);
+	solve(aleft + left+1,aright,rroot,t,a);
+}
