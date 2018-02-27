@@ -14,7 +14,7 @@ typedef struct Head {
 typedef struct Graph {
 	int numvertex;
 	int numedge;
-	head links[4];
+	head links[max];
 }graph;
 graph* create(int n)
 {
